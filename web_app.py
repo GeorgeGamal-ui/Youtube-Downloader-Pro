@@ -206,9 +206,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'quiet': True,
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
-                'progress_hooks': [my_hook],
-                # إجبار الأداة على استبعاد الويب والتلفزيون نهائياً لتخطي لغز التشفير
-                'extractor_args': {'youtube': ['player_client=default,-web,-tv_downgraded,-tv,-web_safari']}
+                'progress_hooks': [my_hook]
             }
 
             # قراءة الكوكيز من إعدادات Streamlit بأمان لتخطي حظر يوتيوب
