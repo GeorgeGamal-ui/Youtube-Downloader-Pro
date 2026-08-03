@@ -1,13 +1,14 @@
-import tempfile
-import os
 import streamlit as st
 import yt_dlp
+import os
+import tempfile
 import shutil
-import re
+import re 
 
 # إعدادات صفحة الموقع
 st.set_page_config(page_title="YouTube Downloader PRO", page_icon="⬇️", layout="centered")
 
+# --- تهيئة ذاكرة اللغة ---
 if 'language' not in st.session_state:
     st.session_state['language'] = 'English'
 
@@ -92,6 +93,7 @@ text = {
     }
 }
 
+# --- دعم اتجاه اللغة (RTL/LTR) ---
 if lang == 'العربية':
     st.markdown("""
         <style>
@@ -102,16 +104,20 @@ if lang == 'العربية':
         </style>
     """, unsafe_allow_html=True)
 
+# --- زر تغيير اللغة ---
 col_empty, col_lang = st.columns([3, 1])
 with col_lang:
     st.button(text[lang]["lang_btn"], on_click=toggle_language, use_container_width=True)
 
+# --- واجهة الموقع ---
 st.title(text[lang]["title"])
 st.markdown(text[lang]["dev"])
 st.write("---")
 
+# اختيار وضع التحميل
 mode_choice = st.radio(text[lang]["mode_label"], [text[lang]["mode_single"], text[lang]["mode_playlist"], text[lang]["mode_batch"]], horizontal=True)
 
+# إدخال الروابط والاسم الاختياري
 custom_zip_name = ""
 if mode_choice == text[lang]["mode_batch"]:
     url_input = st.text_area(text[lang]["url_area_label"], height=100)
@@ -121,6 +127,7 @@ else:
 
 urls = [u.strip() for u in url_input.split('\n') if u.strip()]
 
+# إعدادات الجودة والصيغة
 col1, col2 = st.columns(2)
 with col1:
     format_choice = st.radio(text[lang]["format_label"], [text[lang]["vid_format"], text[lang]["aud_format"]])
@@ -137,6 +144,7 @@ with col2:
 
 st.write("---")
 
+# زر التحميل
 if st.button(text[lang]["btn_download"], use_container_width=True):
     if not urls:
         st.warning(text[lang]["warn_url"])
@@ -192,7 +200,8 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 progress_bar_placeholder.progress(1.0)
                 status_text_placeholder.warning(text[lang]["finish_process"])
 
-       try:
+        try:
+            # إعدادات التحميل الأساسية
             opts = {
                 'quiet': True,
                 'no_warnings': True,
@@ -200,16 +209,15 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'progress_hooks': [my_hook]
             }
 
-            # الكود الخاص بقرائة الكوكيز من الأسرار
+            # قراءة الكوكيز من إعدادات Streamlit بأمان لتخطي حظر يوتيوب
             if "youtube_cookies" in st.secrets:
                 cookie_fd, cookie_path = tempfile.mkstemp(suffix=".txt")
                 with os.fdopen(cookie_fd, 'w') as f:
                     f.write(st.secrets["youtube_cookies"])
                 opts['cookiefile'] = cookie_path
-            }
             
+            # تحديد الصيغة والتكويد
             if format_choice == text[lang]["vid_format"]:
-                # تفعيل التكويد بناءً على اختيار المستخدم
                 if codec_choice == text[lang]["codec_av1"]:
                     opts['format'] = f'bestvideo[vcodec^=av01][height<={quality}][ext=mp4]+bestaudio[ext=m4a]/best[height<={quality}][ext=mp4]/best'
                 else:
@@ -222,6 +230,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                     'preferredquality': quality,
                 }]
 
+            # 1. معالجة الملف الفردي
             if mode_choice == text[lang]["mode_single"]:
                 file_tracking_placeholder.markdown(f"#### 📂 {text[lang]['file']} 1 {text[lang]['of']} 1")
                 opts['noplaylist'] = True
@@ -237,6 +246,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 with open(filename, "rb") as file:
                     st.download_button(label=text[lang]["btn_save_single"], data=file, file_name=filename, mime="video/mp4" if format_choice == text[lang]["vid_format"] else "audio/mpeg", use_container_width=True)
             
+            # 2. معالجة البلاي ليست والروابط المتعددة (ZIP)
             else:
                 temp_dir = tempfile.mkdtemp(prefix="ytdl_")
                 zip_filename = "Downloads" 
