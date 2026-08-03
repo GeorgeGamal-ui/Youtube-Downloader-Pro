@@ -207,7 +207,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'extractor_args': {'youtube': ['client=android,ios']}
+                'extractor_args': {'youtube': ['player_client=android,ios']}
             }
 
             # قراءة الكوكيز من إعدادات Streamlit بأمان لتخطي حظر يوتيوب
