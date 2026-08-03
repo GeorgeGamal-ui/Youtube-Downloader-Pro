@@ -194,11 +194,16 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
         try:
             # تم تنظيف الإعدادات لتعتمد على Node.js و FFmpeg المرفقين في السيرفر تلقائياً
             opts = {
+                opts = {
                 'quiet': True,
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'extractor_retries': 3, # تكرار المحاولة في حال فشل الاتصال بيوتيوب
+                'extractor_retries': 5, # زيادة المحاولات
+                # السطر السحري لتخطي حظر السيرفرات وتحدي الجافا سكريبت
+                'extractor_args': {
+                    'youtube': ['player_client=android,ios,tv']
+                }
             }
 
             if "youtube_cookies" in st.secrets:
