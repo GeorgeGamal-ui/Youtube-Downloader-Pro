@@ -214,7 +214,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'js_runtimes': {'deno': DENO_PATH}
+                'js_runtimes': {'deno': {}}
             }
 
             if "youtube_cookies" in st.secrets:
