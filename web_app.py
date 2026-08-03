@@ -192,7 +192,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 progress_bar_placeholder.progress(1.0)
                 status_text_placeholder.warning(text[lang]["finish_process"])
 
-        try:
+       try:
             opts = {
                 'quiet': True,
                 'no_warnings': True,
@@ -200,7 +200,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'progress_hooks': [my_hook]
             }
 
-            # الكود الجديد لقرائة الكوكيز بأمان من السيرفر
+            # الكود الخاص بقرائة الكوكيز من الأسرار
             if "youtube_cookies" in st.secrets:
                 cookie_fd, cookie_path = tempfile.mkstemp(suffix=".txt")
                 with os.fdopen(cookie_fd, 'w') as f:
