@@ -1,3 +1,2 @@
 streamlit
 git+https://github.com/yt-dlp/yt-dlp.git
-curl-cffi
