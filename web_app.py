@@ -194,7 +194,6 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
         try:
             # تم تنظيف الإعدادات لتعتمد على Node.js و FFmpeg المرفقين في السيرفر تلقائياً
             opts = {
-                opts = {
                 'quiet': True,
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
