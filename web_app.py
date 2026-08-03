@@ -198,7 +198,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'impersonate': 'chrome110',  # تزوير بصمة المتصفح لتخطي حظر السيرفرات
+                'impersonate': 'chrome116',  # تزوير بصمة المتصفح لتخطي حظر السيرفرات
                 'extractor_args': {'youtube': ['client=android']}
             }
             
