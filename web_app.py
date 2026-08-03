@@ -198,8 +198,12 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'impersonate': 'chrome116',  # تزوير بصمة المتصفح لتخطي حظر السيرفرات
-                'extractor_args': {'youtube': ['client=android']}
+                # استخدام عميل التلفزيون والأيفون لتخطي حظر السيرفرات
+                'extractor_args': {'youtube': ['client=tv,ios']},
+                # إرسال بيانات وهمية كأننا شاشة سمارت
+                'http_headers': {
+                    'User-Agent': 'Mozilla/5.0 (SMART-TV; Linux; Tizen 5.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/5.0 NativeTV/2.0 SmartTV Safari/538.1'
+                }
             }
             
             if format_choice == text[lang]["vid_format"]:
