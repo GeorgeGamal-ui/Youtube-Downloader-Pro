@@ -198,7 +198,7 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'extractor_args': {'youtube': ['client=android']},
+                'extractor_args': {'youtube': ['client=ios,android,tv']},
             }
             
             if format_choice == text[lang]["vid_format"]:
