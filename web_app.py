@@ -224,7 +224,17 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'quiet': True,
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
-                'progress_hooks': [my_hook]
+                'progress_hooks': [my_hook],
+                
+                # 1. سحب أداة فك التشفير مباشرة من سيرفر المطورين عشان Deno يستخدمها
+                'remote_components': ['ejs:github'],
+                
+                # 2. الصيغة الصحيحة (قاموس متداخل) لإجبار الأداة على الموبايل فقط ومنع الويب والتلفزيون تماماً
+                'extractor_args': {
+                    'youtube': {
+                        'player_client': ['android', 'ios']
+                    }
+                }
             }
 
             if "youtube_cookies" in st.secrets:
