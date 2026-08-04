@@ -3,11 +3,28 @@ import yt_dlp
 import os
 import tempfile
 import shutil
-import re 
+import re
+import subprocess
 
 # إعدادات صفحة الموقع
 st.set_page_config(page_title="YouTube Downloader PRO", page_icon="⬇️", layout="centered")
 
+# --- فحص محركات النظام (Node.js و FFmpeg) في القائمة الجانبية ---
+with st.sidebar:
+    st.write("### ⚙️ حالة أدوات السيرفر")
+    try:
+        node_version = subprocess.check_output(["node", "-v"]).decode().strip()
+        st.success(f"✅ محرك فك التشفير (Node.js) يعمل: {node_version}")
+    except Exception:
+        st.error("❌ تحذير: Node.js غير مثبت! يرجى عمل Rebuild أو Delete ثم Create للتطبيق ليقرأ ملف packages.txt.")
+        
+    try:
+        ffmpeg_version = subprocess.check_output(["ffmpeg", "-version"]).decode().split('\n')[0].split()[2]
+        st.success(f"✅ محرك دمج الصوت (FFmpeg) يعمل: {ffmpeg_version}")
+    except Exception:
+        st.error("❌ تحذير: FFmpeg غير مثبت! يرجى التأكد من ملف packages.txt.")
+
+# --- إعدادات اللغة ---
 if 'language' not in st.session_state:
     st.session_state['language'] = 'English'
 
@@ -192,16 +209,15 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 status_text_placeholder.warning(text[lang]["finish_process"])
 
         try:
-            # تم تنظيف الإعدادات لتعتمد على Node.js و FFmpeg المرفقين في السيرفر تلقائياً
+            # التعديل الهجومي لتخطي الحماية عن طريق استخدام تطبيق أندرويد فقط وإلغاء الويب
             opts = {
                 'quiet': True,
                 'no_warnings': True,
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
-                'extractor_retries': 5, # زيادة المحاولات
-                # السطر السحري لتخطي حظر السيرفرات وتحدي الجافا سكريبت
+                'extractor_retries': 4,
                 'extractor_args': {
-                    'youtube': ['player_client=android,ios,tv']
+                    'youtube': ['player_client=android,ios', 'player_skip=web,tv']
                 }
             }
 
