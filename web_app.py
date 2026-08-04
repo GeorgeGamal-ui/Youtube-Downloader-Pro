@@ -216,10 +216,13 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
                 'extractor_retries': 4,
-                # إرجاع سكربتات فك التشفير لتعمل مع محرك Node.js الموجود على السيرفر
                 'remote_components': ['ejs:github'],
+                # الحل السحري هنا: منع الويب تماماً واستخدام واجهات الموبايل فقط
                 'extractor_args': {
-                    'youtube': ['player_client=android,web']
+                    'youtube': [
+                        'player_client=android,ios', 
+                        'player_skip=web,mweb,tv'
+                    ]
                 }
             }
 
