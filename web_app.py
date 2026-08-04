@@ -216,8 +216,10 @@ if st.button(text[lang]["btn_download"], use_container_width=True):
                 'logger': StreamlitLogger(),
                 'progress_hooks': [my_hook],
                 'extractor_retries': 4,
+                # إرجاع سكربتات فك التشفير لتعمل مع محرك Node.js الموجود على السيرفر
+                'remote_components': ['ejs:github'],
                 'extractor_args': {
-                    'youtube': ['player_client=android,ios', 'player_skip=web,tv']
+                    'youtube': ['player_client=android,web']
                 }
             }
 
